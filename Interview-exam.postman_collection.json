@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "d8ac9606-6b80-49db-91ff-d1ed8eecd655",
+		"name": "Interview-exam",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26054169"
+	},
+	"item": [
+		{
+			"name": "Get Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"token\", jsonData.content.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"arif113026@gmail.com\",\r\n    \"password\":\"arif113026\",\r\n    \"provider\":\"password\",\r\n    \"type\":\"basic\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/acct/v2/sessions",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"acct",
+						"v2",
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Course List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"course_id\", jsonData.content.courses[1].course_id);\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"partner_id\", jsonData.content.courses[1].partner_code);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Request-Id",
+						"value": "1",
+						"type": "text"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teachers_get_own_courses",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/edu/v2/teachers",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Course Details",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Request-Id",
+						"value": "1",
+						"type": "text"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teachers_get_course_items_count",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"course_id\":\"{{course_id}}\",\r\n    \"partner_code\":\"{{partner_id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/edu/v2/teachers",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
